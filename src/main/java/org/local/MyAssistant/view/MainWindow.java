@@ -1,6 +1,7 @@
 package org.local.MyAssistant.view;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,6 +20,7 @@ public class MainWindow extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("MyAssistant App");
         pack();
+        setMinimumSize(new Dimension(275,0));
         setLocationRelativeTo(null);
         setResizable(false);
 
