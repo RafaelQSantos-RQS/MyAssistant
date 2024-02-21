@@ -1,6 +1,8 @@
 package org.local.MyAssistant.view;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DefaultTexts extends JFrame{
     private JPanel MainPanel;
@@ -17,6 +19,13 @@ public class DefaultTexts extends JFrame{
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
+        SGCButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AtendimentoSGCWindow janelaParaSGC = new AtendimentoSGCWindow();
+                janelaParaSGC.setVisible(true);
+            }
+        });
     }
 
 

@@ -4,6 +4,7 @@ import org.local.MyAssistant.view.MainWindow;
 
 public class Main {
     public static void main(String[] args) {
-        new MainWindow();
+        MainWindow janelaPrincipal = new MainWindow();
+        janelaPrincipal.setVisible(true);
     }
 }

@@ -18,7 +18,6 @@ public class MainWindow extends JFrame{
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
-        setVisible(true);
 
         // ActionListener
         DefaultTextButton.addActionListener(new ActionListener() {
