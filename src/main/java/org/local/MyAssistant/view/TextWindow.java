@@ -40,7 +40,7 @@ public class TextWindow extends JFrame implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        MainWindow janelaPrincipal = new MainWindow();
+        MainWindowAcademico janelaPrincipal = new MainWindowAcademico();
         janelaPrincipal.setVisible(true);
     }
 

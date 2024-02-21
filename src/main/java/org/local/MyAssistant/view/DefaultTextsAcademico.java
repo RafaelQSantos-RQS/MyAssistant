@@ -5,19 +5,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static org.local.MyAssistant.controller.TextGenerator.getSaudacao;
-import static org.local.MyAssistant.controller.TextGenerator.getSenhaText;
+import static org.local.MyAssistant.controller.TextGenerator.*;
 
-public class DefaultTexts extends JFrame{
+public class DefaultTextsAcademico extends JFrame{
     private JPanel MainPanel;
     private JButton atendimentosButton;
-    private JButton encaminhamentoTécnicoButton;
+    private JButton encaminhamentoTecnicoButton;
     private JButton problemasComSenhasButton;
     private JButton saudacaoButton;
     private JButton SGCButton;
     private JButton voltarButton;
 
-    public DefaultTexts() {
+    public DefaultTextsAcademico() {
         setContentPane(MainPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Textos Padrões");
@@ -37,7 +36,7 @@ public class DefaultTexts extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                MainWindow janelaPrincipal = new MainWindow();
+                MainWindowAcademico janelaPrincipal = new MainWindowAcademico();
                 janelaPrincipal.setVisible(true);
             }
         });
@@ -62,6 +61,15 @@ public class DefaultTexts extends JFrame{
                     JOptionPane.
                             showMessageDialog(null,"Texto padrão não gerado, valor não escolhido","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
+        encaminhamentoTecnicoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                String mensagem = getEncaminhamentoTecnico();
+                TextWindow janelaDeTexto = new TextWindow(mensagem);
+                janelaDeTexto.setVisible(true);
             }
         });
     }

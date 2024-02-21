@@ -7,18 +7,18 @@ import java.awt.event.ActionListener;
 
 import static org.local.MyAssistant.controller.TextGenerator.getContatos;
 
-public class MainWindow extends JFrame{
+public class MainWindowAcademico extends JFrame{
     private JPanel MainPanel;
     private JButton DefaultTextButton;
     private JButton sairButton;
     private JButton contatosButton;
 
-    public MainWindow(){
+    public MainWindowAcademico(){
 
         // Preferências da janela
         setContentPane(MainPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("MyAssistant App");
+        setTitle("MyAssistant App (Ambiente Acadêmico)");
         pack();
         setMinimumSize(new Dimension(275,0));
         setLocationRelativeTo(null);
@@ -29,7 +29,7 @@ public class MainWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DefaultTexts janelaDeTextosPadroes = new DefaultTexts();
+                DefaultTextsAcademico janelaDeTextosPadroes = new DefaultTextsAcademico();
                 janelaDeTextosPadroes.setVisible(true);
             }
         });

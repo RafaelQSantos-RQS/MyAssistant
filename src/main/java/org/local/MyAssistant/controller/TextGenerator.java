@@ -94,4 +94,13 @@ public class TextGenerator {
                 "1. (71) 98110-4473";
         return contatoString;
     }
+
+    static public String getEncaminhamentoTecnico() {
+        String msg =
+                "Prezado(a),\n\n" +
+                "Agradecemos pelas informações fornecidas. Seu atendimento será encaminhado para um técnico presencial imediatamente. Em questão de minutos, o mesmo estará chegando para prestar assistência.\n\n" +
+                "Agradecemos pela sua compreensão e paciência. Estamos aqui para garantir que suas necessidades sejam atendidas da melhor maneira possível.\n\n" +
+                "Atenciosamente, Núcleo de Informática do Senai Cimatec.";
+        return msg;
+    }
 }

@@ -1,10 +1,10 @@
 package org.local.MyAssistant;
 
-import org.local.MyAssistant.view.MainWindow;
+import org.local.MyAssistant.view.MainWindowAcademico;
 
 public class Main {
     public static void main(String[] args) {
-        MainWindow janelaPrincipal = new MainWindow();
+        MainWindowAcademico janelaPrincipal = new MainWindowAcademico();
         janelaPrincipal.setVisible(true);
     }
 }
