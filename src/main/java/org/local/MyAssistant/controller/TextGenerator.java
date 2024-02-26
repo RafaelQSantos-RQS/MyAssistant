@@ -1,71 +1,76 @@
 package org.local.MyAssistant.controller;
 
+import org.local.MyAssistant.model.ConnectionFactory;
+
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class TextGenerator {
-    static public String getTextoChamado(String nome_do_cliente, String localizacao, String apoio) {
-        String texto =
-                "O cliente entrou em contato via WhatsApp solicitando apoio. Durante o atendimento, foram coletadas as seguintes informações:\n" +
-                "\nNome do Cliente: " + nome_do_cliente.toUpperCase() +
-                "\nLocalização: " + localizacao.toUpperCase() +
-                "\nTipo de Apoio Necessário: " + apoio.toUpperCase() +
-                "\n\nO atendimento está em andamento e as necessidades do cliente estão sendo tratadas conforme as políticas e procedimentos estabelecidos." +
-                "\nSerá fornecida uma atualização assim que o atendimento for concluído ou se houver necessidade de mais informações.";
-        return texto;
-    }
+    static public String[] getTextoChamado(String cliente, String localizacao, String apoio) throws SQLException {
+        String text = null;
+        try (Connection connection = new ConnectionFactory().CreateConnection();
+             Statement statement = connection.createStatement()) {
 
-    static public String getSaudacao() {
-        String saudacao =
-            "Olá,\n" +
-            "\nAgradecemos por entrar em contato com nosso suporte via WhatsApp.\n" +
-            "\nPara que possamos auxiliá-lo da melhor forma possível, precisamos de algumas informações adicionais. Por favor, poderia nos fornecer:\n" +
-            "\n1. Seu nome completo." +
-            "\n2. A sala ou laboratório onde você se encontra." +
-            "\n3. Qual tipo de apoio você necessita neste momento.\n" +
-            "\nAssim que recebermos essas informações, nossa equipe estará pronta para lhe ajudar. Estamos aqui para tornar sua experiência mais fluida e produtiva.\n" +
-            "\nAguardamos o seu retorno.\n" +
-            "\nAtenciosamente, Núcleo de  Informática do Senai Cimatec.";
-        return saudacao;
-    }
+            statement.setQueryTimeout(30);
 
-    static public String getSenhaText(){
-        String[] options = {"Login SESI","Primeiro Acesso","Troca de senha"};
-        String msg;
-        String resposta =
-                (String) JOptionPane.showInputDialog(null,"Selecione qual texto você deseja copiar:","Seleção de Texto",JOptionPane.INFORMATION_MESSAGE,null,options,options[0]);
-        switch (resposta) {
-            case "Login SESI":
-                msg =
-                    "CREDENCIAIS DE ACESSO AO SESI:\n" +
-                    "\nPara acessar os equipamentos do SESI, por favor, utilize uma das seguintes credenciais:\n" +
-                    "\nUsuário: cimatec" +
-                    "\nSenha: Cimatec123\n" +
-                    "\nou\n" +
-                    "\nUsuário: sesi" +
-                    "\nSenha: Fieb@123\n" +
-                    "\nEssas são as informações necessárias para acessar os equipamentos do SESI. Se precisar de mais alguma assistência, não hesite em nos contatar.\n" +
-                    "\nAtenciosamente, Núcleo de  Informática do Senai Cimatec.";
-                break;
-            case "Primeiro Acesso":
-                msg =
-                    "PRIMEIRO ACESSO:\n" +
-                    "\n1. Utilize seu RA ou Código do Professor como login, e a senha inicial é *Cimatec@123* em qualquer máquina do Laboratório / Sala de Aula, com exceção do Laboratório Cyber." +
-                    "\n2. Após o login inicial, o sistema solicitará que você efetue a troca da senha para garantir a segurança da sua conta.\n" +
-                    "\nSe precisar de mais assistência ou tiver outras perguntas, não hesite em nos contatar novamente. Estamos aqui para ajudar.\n" +
-                    "\nAtenciosamente, Núcleo de  Informática do Senai Cimatec.";
-                break;
-            case "Troca de senha":
-                msg =
-                    "TROCA DE SENHA:\n" +
-                    "\n1. Para realizar a troca de senha, por favor, forneça seu RA ou Código do Professor. Sua senha será resetada para *Cimatec@123*." +
-                    "\n2. Ao fazer login com essa senha temporária, em qualquer máquina do Laboratório / Sala de Aula, com exceção do Laboratório Cyber, será solicitada imediatamente a troca para uma senha de sua escolha.\n" +
-                    "\nSe precisar de mais assistência ou tiver outras perguntas, não hesite em nos contatar novamente. Estamos aqui para ajudar.\n" +
-                    "\nAtenciosamente, Núcleo de  Informática do Senai Cimatec.";
-                break;
-            default:
-                msg = null;
+            String query = "select nome, texto from textos where nome = 'Abertura de Chamado'";
+            ResultSet rst = statement.executeQuery(query);
+
+            if (rst.next()) {
+                text = rst.getString("texto");
+            }
+
+            text = text.replace("[CLIENTE]",cliente.toUpperCase());
+            text = text.replace("[LOCAL]",localizacao.toUpperCase());
+            text = text.replace("[APOIO]",apoio.toUpperCase());
+
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao recuperar texto de Saudação:\n", e);
         }
-        return msg;
+        return new String[]{text, null};
+    }
+
+    static public String getSaudacao() throws SQLException {
+        String text = null;
+        try (Connection connection = new ConnectionFactory().CreateConnection();
+             Statement statement = connection.createStatement()) {
+
+            statement.setQueryTimeout(30);
+
+            String query = "select nome, texto from textos where nome = 'Saudação'";
+            ResultSet rst = statement.executeQuery(query);
+
+            if (rst.next()) {
+                text = rst.getString("texto");
+            }
+
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao recuperar texto de Saudação:\n", e);
+        }
+        return text;
+    }
+
+    static public String getSenhaText(String nome) throws SQLException {
+        String text = null;
+        try (Connection connection = new ConnectionFactory().CreateConnection();
+             Statement statement = connection.createStatement()) {
+
+            statement.setQueryTimeout(30);
+
+            String query = "select nome, texto from textos where nome = '" + nome +"'";
+            ResultSet rst = statement.executeQuery(query);
+
+            if (rst.next()) {
+                text = rst.getString("texto");
+            }
+
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao recuperar texto de " + nome + ":", e);
+        }
+        return text;
     }
 
     static public String getContatos() {
@@ -95,12 +100,23 @@ public class TextGenerator {
         return contatoString;
     }
 
-    static public String getEncaminhamentoTecnico() {
-        String msg =
-                "Prezado(a),\n\n" +
-                "Agradecemos pelas informações fornecidas. Seu atendimento será encaminhado para um técnico presencial imediatamente. Em questão de minutos, o mesmo estará chegando para prestar assistência.\n\n" +
-                "Agradecemos pela sua compreensão e paciência. Estamos aqui para garantir que suas necessidades sejam atendidas da melhor maneira possível.\n\n" +
-                "Atenciosamente, Núcleo de Informática do Senai Cimatec.";
-        return msg;
+    static public String getEncaminhamentoTecnico() throws SQLException {
+        String text = null;
+        try (Connection connection = new ConnectionFactory().CreateConnection();
+             Statement statement = connection.createStatement()) {
+
+            statement.setQueryTimeout(30);
+
+            String query = "select nome, texto from textos where nome = 'Encaminhar Técnico'";
+            ResultSet rst = statement.executeQuery(query);
+
+            if (rst.next()) {
+                text = rst.getString("texto");
+            }
+
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao recuperar texto de encaminhamento técnico", e);
+        }
+        return text;
     }
 }
