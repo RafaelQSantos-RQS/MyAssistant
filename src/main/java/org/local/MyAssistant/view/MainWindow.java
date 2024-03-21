@@ -1,31 +1,38 @@
 package org.local.MyAssistant.view;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URL;
 
 import static org.local.MyAssistant.controller.TextGenerator.getContatos;
 
 public class MainWindow extends JFrame{
     private JPanel MainPanel;
-    private JButton DefaultTextButton;
+    private JButton atenderButton;
     private JButton sairButton;
     private JButton contatosButton;
+    private JButton sobreButton;
 
     public MainWindow() {
         initComponents();
 
         // ActionListener
-        DefaultTextButton.addActionListener(new ActionListener() {
+        atenderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DefaultTexts janelaDeTextosPadroes = new DefaultTexts();
-                janelaDeTextosPadroes.setVisible(true);
+                String[] options = new String[] {"Acadêmico","Corporativo"};
+                int response = JOptionPane.showOptionDialog(null,"Vai prestar atendimento para qual Ambiente?",
+                        "Escolha o Ambiente",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
+                if (response == -1) {
+                    MainWindow janelaPrincipal = new MainWindow();
+                    janelaPrincipal.setVisible(true);
+                } else if (response == 0) {
+                    AtendimentosAcademicos atendimentosAcademicos = new AtendimentosAcademicos();
+                    atendimentosAcademicos.setVisible(true);
+                } else if (response == 1) {
+                }
             }
         });
         sairButton.addActionListener(new ActionListener() {
@@ -37,10 +44,6 @@ public class MainWindow extends JFrame{
         contatosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                String text = getContatos();
-                JanelaDeTextoSimples janelaDeTextoSimples = new JanelaDeTextoSimples(text);
-                janelaDeTextoSimples.setVisible(true);
             }
         });
     }
@@ -54,6 +57,5 @@ public class MainWindow extends JFrame{
         setMinimumSize(new Dimension(275, 0));
         setLocationRelativeTo(null);
         setResizable(false);
-        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("src/main/java/org/local/MyAssistant/images/AssistentIcon.png")));
     }
 }

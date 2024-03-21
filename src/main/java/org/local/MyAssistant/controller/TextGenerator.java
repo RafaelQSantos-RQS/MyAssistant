@@ -9,70 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class TextGenerator {
-    static public String[] getTextoChamado(String cliente, String localizacao, String apoio) throws SQLException {
-        String text = null;
-        try (Connection connection = new ConnectionFactory().CreateConnection();
-             Statement statement = connection.createStatement()) {
-
-            statement.setQueryTimeout(30);
-
-            String query = "select nome, texto from textos where nome = 'Abertura de Chamado'";
-            ResultSet rst = statement.executeQuery(query);
-
-            if (rst.next()) {
-                text = rst.getString("texto");
-            }
-
-            text = text.replace("[CLIENTE]",cliente.toUpperCase());
-            text = text.replace("[LOCAL]",localizacao.toUpperCase());
-            text = text.replace("[APOIO]",apoio.toUpperCase());
-
-        } catch (SQLException e) {
-            throw new SQLException("Erro ao recuperar texto de Saudação:\n", e);
-        }
-        return new String[]{text, null};
-    }
-
-    static public String getSaudacao() throws SQLException {
-        String text = null;
-        try (Connection connection = new ConnectionFactory().CreateConnection();
-             Statement statement = connection.createStatement()) {
-
-            statement.setQueryTimeout(30);
-
-            String query = "select nome, texto from textos where nome = 'Saudação'";
-            ResultSet rst = statement.executeQuery(query);
-
-            if (rst.next()) {
-                text = rst.getString("texto");
-            }
-
-        } catch (SQLException e) {
-            throw new SQLException("Erro ao recuperar texto de Saudação:\n", e);
-        }
-        return text;
-    }
-
-    static public String getSenhaText(String nome) throws SQLException {
-        String text = null;
-        try (Connection connection = new ConnectionFactory().CreateConnection();
-             Statement statement = connection.createStatement()) {
-
-            statement.setQueryTimeout(30);
-
-            String query = "select nome, texto from textos where nome = '" + nome +"'";
-            ResultSet rst = statement.executeQuery(query);
-
-            if (rst.next()) {
-                text = rst.getString("texto");
-            }
-
-        } catch (SQLException e) {
-            throw new SQLException("Erro ao recuperar texto de " + nome + ":", e);
-        }
-        return text;
-    }
-
     static public String getContatos() {
         String contatoString =
                 "Central de Matrículas:\n" +
@@ -100,23 +36,4 @@ public class TextGenerator {
         return contatoString;
     }
 
-    static public String getEncaminhamentoTecnico() throws SQLException {
-        String text = null;
-        try (Connection connection = new ConnectionFactory().CreateConnection();
-             Statement statement = connection.createStatement()) {
-
-            statement.setQueryTimeout(30);
-
-            String query = "select nome, texto from textos where nome = 'Encaminhar Técnico'";
-            ResultSet rst = statement.executeQuery(query);
-
-            if (rst.next()) {
-                text = rst.getString("texto");
-            }
-
-        } catch (SQLException e) {
-            throw new SQLException("Erro ao recuperar texto de encaminhamento técnico", e);
-        }
-        return text;
-    }
 }
